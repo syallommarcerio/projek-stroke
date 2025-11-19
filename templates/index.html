@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Stroke Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        
+        /* SIDEBAR STYLE */
+        #wrapper { display: flex; }
+        #sidebar {
+            min-width: 260px;
+            max-width: 260px;
+            background: #1e293b; /* Dark Blue */
+            color: #fff;
+            min-height: 100vh;
+        }
+        #sidebar .sidebar-header {
+            padding: 25px;
+            background: #0f172a;
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #sidebar ul.components { padding: 20px 0; }
+        #sidebar ul li { padding: 10px 20px; border-left: 4px solid transparent; }
+        #sidebar ul li.active { background: #334155; border-left: 4px solid #3b82f6; }
+        #sidebar ul li a { color: #cbd5e1; text-decoration: none; font-size: 1rem; display: block; }
+        #sidebar ul li:hover { background: #334155; }
+
+        /* CONTENT STYLE */
+        #content { width: 100%; padding: 0; }
+        
+        /* NAVBAR */
+        .navbar-custom {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* CARDS TOP */
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border-bottom: 4px solid transparent;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card.blue { border-bottom-color: #3b82f6; }
+        .stat-card.purple { border-bottom-color: #8b5cf6; }
+        .stat-card.orange { border-bottom-color: #f59e0b; }
+        .stat-card.green { border-bottom-color: #10b981; }
+        
+        .stat-icon {
+            width: 50px; height: 50px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 15px;
+        }
+        
+        /* MAIN FORM CARD */
+        .main-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin: 30px;
+            overflow: hidden;
+        }
+        .card-header-custom {
+            background: linear-gradient(45deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 20px 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .form-label { font-weight: 700; color: #475569; font-size: 0.9rem; }
+        .form-control, .form-select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+        }
+        .form-control:focus { border-color: #3b82f6; background-color: white; }
+
+        /* RESULT BOX */
+        .result-box {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px dashed #cbd5e1;
+        }
+        .score-display { font-size: 3rem; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-heartbeat text-primary"></i> STROKE GUARD
+        </div>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="active">
+                <a href="#"><i class="fas fa-user-md"></i> Diagnosa Pasien</a>
+            </li>
+        </ul>
+        
+        <div style="padding: 20px; font-size: 0.8rem; color: #64748b; margin-top: 60vh;">
+            <p>System v2.0<br>AI Integration</p>
+        </div>
+    </nav>
+
+    <div id="content">
+        
+        <div class="navbar-custom">
+            <h5 class="m-0 fw-bold text-secondary">Sistem Deteksi Dini Stroke</h5>
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-end d-none d-sm-block">
+                    <span class="d-block fw-bold text-dark">Mitra Karang Taruna</span>
+                    <span class="d-block text-muted" style="font-size: 0.8rem;">User Akses</span>
+                </div>
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid px-4 mt-4">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-card blue">
+                        <div class="stat-icon bg-blue-subtle text-primary" style="background: #dbeafe;">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h6 class="text-muted mb-1">Koneksi Server</h6>
+                        <h4 class="fw-bold m-0 text-success">Terhubung</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card purple">
+                        <div class="stat-icon text-white" style="background: #8b5cf6;">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h6 class="text-muted mb-1">Algoritma</h6>
+                        <h4 class="fw-bold m-0">Random Forest</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card orange">
+                        <div class="stat-icon text-white" style="background: #f59e0b;">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h6 class="text-muted mb-1">Akurasi Lab</h6>
+                        <h4 class="fw-bold m-0">97.66%</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card green">
+                        <div class="stat-icon text-white" style="background: #10b981;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h6 class="text-muted mb-1">Status Model</h6>
+                        <h4 class="fw-bold m-0">Siap Pakai</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="card-header-custom d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-clipboard-list me-2"></i> Formulir Pemeriksaan</span>
+                <span class="badge bg-white text-primary">Mode Prediksi</span>
+            </div>
+            <div class="card-body p-4">
+                
+                <form action="/predict" method="POST">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Usia Pasien</label>
+                                <div class="input-group">
+                                    <input type="number" name="usia" class="form-control" placeholder="Contoh: 55" required value="{{ request.form['usia'] if request.form else '' }}">
+                                    <span class="input-group-text">Tahun</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gender" value="Male" checked>
+                                        <label class="form-check-label">Laki-laki</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gender" value="Female" {% if request.form['gender'] == 'Female' %}checked{% endif %}>
+                                        <label class="form-check-label">Perempuan</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Gula Darah (Avg)</label>
+                                    <input type="number" name="gula" step="0.1" class="form-control" placeholder="140.5" required value="{{ request.form['gula'] if request.form else '' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">BMI</label>
+                                    <input type="number" name="bmi" step="0.1" class="form-control" placeholder="28.4" required value="{{ request.form['bmi'] if request.form else '' }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Faktor Risiko</label>
+                                <div class="p-3 bg-light rounded border">
+                                    <label class="small text-muted mb-1">Riwayat Jantung</label>
+                                    <select name="jantung" class="form-select mb-3">
+                                        <option value="0">Normal</option>
+                                        <option value="1" {% if request.form['jantung'] == '1' %}selected{% endif %}>Ada Riwayat Sakit</option>
+                                    </select>
+
+                                    <label class="small text-muted mb-1">Tekanan Darah</label>
+                                    <select name="hipertensi" class="form-select">
+                                        <option value="0">Normal</option>
+                                        <option value="1" {% if request.form['hipertensi'] == '1' %}selected{% endif %}>Hipertensi (Tinggi)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Status Merokok</label>
+                                <select name="rokok" class="form-select">
+                                    <option value="never smoked">Tidak Merokok</option>
+                                    <option value="formerly smoked">Mantan Perokok</option>
+                                    <option value="smokes" {% if request.form['rokok'] == 'smokes' %}selected{% endif %}>Perokok Aktif</option>
+                                    <option value="Unknown">Tidak Tahu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold mt-3 shadow-sm">
+                        <i class="fas fa-search me-2"></i> ANALISA SEKARANG
+                    </button>
+                </form>
+
+                {% if hasil %}
+                <div class="result-box mt-4" style="background: {{ '#ecfdf5' if css == 'success' else '#fef2f2' }}; border-color: {{ '#34d399' if css == 'success' else '#f87171' }};">
+                    <h5 class="text-uppercase fw-bold {{ 'text-success' if css == 'success' else 'text-danger' }} mb-2">
+                        <i class="{{ 'fas fa-check-circle' if css == 'success' else 'fas fa-exclamation-circle' }}"></i> 
+                        {{ hasil }}
+                    </h5>
+                    
+                    <div class="score-display" style="color: {{ '#059669' if css == 'success' else '#dc2626' }}">
+                        {{ skor }}
+                    </div>
+                    
+                    <p class="text-secondary mb-0 mt-2 fw-bold">{{ saran }}</p>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
