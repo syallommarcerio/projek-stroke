@@ -8,9 +8,9 @@ app = Flask(__name__)
 # Load Model
 try:
     model = joblib.load('model_stroke.pkl')
-    COL_ORDER = model.feature_names_in_ # Auto-detect kolom
+    COL_ORDER = model.feature_names_in_ 
 except:
-    COL_ORDER = [] # Fallback
+    COL_ORDER = [] 
 
 @app.route('/')
 def home():
@@ -44,14 +44,14 @@ def predict():
         data_dict[f'gender_{gender}'] = 1
         data_dict[f'smoking_status_{rokok}'] = 1
 
-        # 3. Reindex (Solusi Anti-Error)
+        # 3. Reindex
         input_df = pd.DataFrame([data_dict])
         input_df = input_df.reindex(columns=COL_ORDER, fill_value=0)
 
         # 4. Prediksi AI
         raw_prob = model.predict_proba(input_df)[0][1]
 
-        # 5. Hybrid Adjustment (Biar Agus Merah)
+        # 5. Hybrid Adjustment (Agus Logic)
         adj = 0.0
         if jantung == 1: adj += 0.35
         if hipertensi == 1: adj += 0.25
@@ -60,17 +60,18 @@ def predict():
         final_prob = min(raw_prob + adj, 0.99)
         persen = round(final_prob * 100, 1)
 
-        # 6. Tentukan Tampilan
+        # 6. Tentukan Tampilan (REVISI TEKS)
         if final_prob > 0.40:
             status = "BERISIKO TINGGI"
-            warna_alert = "danger" # Merah di Bootstrap
+            warna_alert = "danger" # Merah
             icon = "⚠️"
-            pesan = "Sistem mendeteksi pola yang mirip dengan pasien stroke. Disarankan segera konsultasi dokter."
+            # Teks lebih to the point
+            pesan = "Terdeteksi indikasi risiko kesehatan yang signifikan. Disarankan segera konsultasi ke dokter saraf/jantung."
         else:
-            status = "AMAN / RENDAH"
-            warna_alert = "success" # Hijau di Bootstrap
+            status = "AMAN / NORMAL"
+            warna_alert = "success" # Hijau
             icon = "✅"
-            pesan = "Tidak ditemukan risiko signifikan. Pertahankan pola hidup sehat Anda."
+            pesan = "Kondisi kesehatan terpantau baik. Pertahankan pola hidup sehat."
 
         return render_template('index.html', 
                                hasil=status, 
