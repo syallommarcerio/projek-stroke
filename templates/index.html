@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>AI Stroke Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard KT Sendangmulyo</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -20,31 +20,30 @@
         #wrapper {
             display: flex;
             width: 100%;
-            position: relative; /* Penting buat overlay */
+            position: relative;
         }
 
         /* SIDEBAR STYLE */
         #sidebar {
             min-width: 260px;
             max-width: 260px;
-            background: #1e293b; /* Dark Blue */
+            background: #1e293b;
             color: #fff;
             min-height: 100vh;
             transition: all 0.3s;
             z-index: 999;
         }
 
-        /* RESPONSIVE SIDEBAR (LOGIC BARU) */
+        /* RESPONSIVE SIDEBAR */
         @media (max-width: 768px) {
             #sidebar {
-                margin-left: -260px; /* Ngumpet di kiri */
+                margin-left: -260px;
                 position: fixed;
                 height: 100%;
             }
             #sidebar.active {
-                margin-left: 0; /* Muncul pas aktif */
+                margin-left: 0;
             }
-            /* Gelapin background pas menu buka */
             .overlay {
                 display: none;
                 position: fixed;
@@ -53,30 +52,21 @@
                 z-index: 998;
             }
             .overlay.active { display: block; }
-
-            /* Penyesuaian font/padding di mobile untuk navbar & stat card */
-            .navbar-custom h5 { font-size: 1rem; }
-            .navbar-custom .d-sm-block { display: none !important; } /* Sembunyikan 'Mitra Karang Taruna' di mobile navbar */
-            .stat-card { padding: 15px; }
-            .stat-card h4 { font-size: 1.2rem; }
-            .stat-card h6 { font-size: 0.75rem; }
-            .stat-icon { width: 40px; height: 40px; font-size: 1.2rem; margin-bottom: 10px; }
-            .main-card { margin: 15px 10px; } /* Margin lebih kecil */
-            .card-body.p-4 { padding: 15px !important; }
-            .card-header-custom { padding: 15px 20px; font-size: 1rem; }
+            
+            /* Navbar di HP biar gak sempit */
+            .navbar-custom { padding: 10px 15px !important; }
+            
+            /* Judul di HP dikecilin */
+            .brand-title { font-size: 1rem !important; } 
+            .kt-name { font-size: 0.8rem !important; text-align: right; line-height: 1.2; }
         }
 
         #sidebar .sidebar-header {
-            padding: 20px; /* Padding dikit */
+            padding: 20px;
             background: #0f172a;
             font-weight: 800;
             font-size: 1.2rem;
             display: flex; align-items: center; gap: 10px;
-        }
-        #sidebar .sidebar-header img { /* Style untuk logo */
-            height: 40px; 
-            width: auto;
-            margin-right: 5px;
         }
         #sidebar ul.components { padding: 20px 0; }
         #sidebar ul li { padding: 10px 20px; border-left: 4px solid transparent; }
@@ -91,13 +81,13 @@
         .navbar-custom {
             background: #fff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 15px 20px; /* Padding disesuaikan */
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        /* CARDS TOP */
+        /* CARDS */
         .stat-card {
             background: white;
             border-radius: 12px;
@@ -105,7 +95,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             border-bottom: 4px solid transparent;
             transition: transform 0.2s;
-            height: 100%; /* Biar tinggi sama */
+            height: 100%;
         }
         .stat-card:hover { transform: translateY(-5px); }
         .stat-card.blue { border-bottom-color: #3b82f6; }
@@ -120,13 +110,16 @@
             font-size: 1.5rem; margin-bottom: 15px;
         }
         
-        /* MAIN FORM CARD */
+        /* MAIN CARD */
         .main-card {
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            margin: 30px; /* Default margin */
+            margin: 30px;
             overflow: hidden;
+        }
+        @media (max-width: 768px) {
+            .main-card { margin: 15px; }
         }
         
         .card-header-custom {
@@ -159,11 +152,13 @@
 </head>
 <body>
 
-<div class="overlay"></div> <div id="wrapper">
+<div class="overlay"></div>
+
+<div id="wrapper">
     
     <nav id="sidebar">
         <div class="sidebar-header">
-            <img src="{{ url_for('static', filename='logo_karangtaruna.png') }}" alt="Logo Karang Taruna" style="height: 45px; width: auto;">
+            <i class="fas fa-heartbeat text-primary fa-lg"></i> 
             <span class="ms-2">STROKE GUARD</span>
         </div>
         <ul class="list-unstyled components">
@@ -175,7 +170,8 @@
             </li>
         </ul>
         
-        <div style="padding: 20px; font-size: 0.8rem; color: #64748b; margin-top: auto;"> <p>System v1.0<br>AI Integration</p>
+        <div style="padding: 20px; font-size: 0.8rem; color: #64748b; margin-top: auto;">
+            <p>System v1.0<br>AI Integration</p>
         </div>
     </nav>
 
@@ -187,16 +183,17 @@
                     <i class="fas fa-bars fa-lg"></i>
                 </button>
 
-                <h5 class="m-0 fw-bold text-secondary">Sistem Deteksi Dini Stroke</h5>
+                <h5 class="m-0 fw-bold text-secondary brand-title d-none d-md-block">Sistem Deteksi Dini Stroke</h5>
+                <h6 class="m-0 fw-bold text-secondary brand-title d-block d-md-none">Deteksi Stroke</h6>
             </div>
 
-            <div class="d-flex align-items-center gap-3">
-                <div class="text-end d-none d-sm-block">
-                    <span class="d-block fw-bold text-dark">Mitra Karang Taruna</span>
-                    <span class="d-block text-muted" style="font-size: 0.8rem;">User Akses</span>
+            <div class="d-flex align-items-center gap-2">
+                <div class="text-end">
+                    <span class="d-block fw-bold text-dark kt-name">KT Sendangmulyo</span>
                 </div>
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                    <i class="fas fa-user"></i>
+                
+                <div style="width: 40px; height: 40px; flex-shrink: 0; overflow: hidden; border-radius: 50%; border: 2px solid #e2e8f0;">
+                    <img src="{{ url_for('static', filename='logo_karangtaruna.png') }}" alt="Logo KT" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
         </div>
