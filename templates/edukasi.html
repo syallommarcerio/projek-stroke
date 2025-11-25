@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edukasi - KT Arutala</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #4361ee; --bg: #f8f9fa; --sidebar: #1a1d21; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); overflow-x: hidden; }
+        
+        #wrapper { display: flex; width: 100%; }
+        #sidebar { min-width: 260px; max-width: 260px; background: var(--sidebar); color: #fff; min-height: 100vh; transition: 0.3s; z-index: 1000; }
+        #sidebar .sidebar-header { padding: 30px 20px; background: rgba(255,255,255,0.05); font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        #sidebar ul.components { padding: 20px 0; }
+        #sidebar ul li a { padding: 15px 25px; display: block; color: #adb5bd; text-decoration: none; transition: 0.3s; border-left: 4px solid transparent; }
+        #sidebar ul li a:hover, #sidebar ul li.active a { color: #fff; background: rgba(67, 97, 238, 0.1); border-left-color: var(--primary); }
+        #sidebar ul li a i { width: 25px; text-align: center; margin-right: 10px; }
+        #content { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+        .navbar-custom { background: #fff; padding: 15px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); }
+        @media (max-width: 768px) { #sidebar { margin-left: -260px; position: fixed; height: 100%; } #sidebar.active { margin-left: 0; } .overlay { display: none; position: fixed; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; top:0; left:0; } .overlay.active { display: block; } }
+
+        .info-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.03); height: 100%; border: none; }
+        .info-header { padding: 20px; font-weight: 700; color: white; display: flex; align-items: center; gap: 10px; }
+        
+        .fast-item { display: flex; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 12px; border-left: 5px solid; transition: 0.3s; }
+        .fast-item:hover { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .fast-letter { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0; }
+        
+        /* Banner Edukasi */
+        .edu-banner {
+            background: #e0e7ff; border-radius: 20px; padding: 30px; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .edu-img { width: 150px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); }
+    </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div id="wrapper">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-heartbeat text-primary fa-lg"></i> <span class="ms-2">STROKE GUARD</span>
+        </div>
+        <ul class="list-unstyled components">
+            <li><a href="/"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="/analisa"><i class="fas fa-stethoscope"></i> Diagnosa AI</a></li>
+            <li class="active"><a href="/edukasi"><i class="fas fa-book-medical"></i> Pusat Edukasi</a></li>
+        </ul>
+    </nav>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <button type="button" id="sidebarCollapse" class="btn btn-light text-primary d-md-none me-3"><i class="fas fa-bars"></i></button>
+            <h5 class="m-0 fw-bold text-dark">Pusat Informasi</h5>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <div class="text-end d-none d-sm-block">
+                    <span class="d-block fw-bold text-dark small">Karang Taruna Arutala</span>
+                    <span class="d-block text-muted" style="font-size: 0.7rem;">Admin Akses</span>
+                </div>
+                <img src="{{ url_for('static', filename='logo_karangtaruna.png') }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid #e2e8f0;">
+            </div>
+        </nav>
+        <div class="container-fluid px-4 py-4">
+            
+            <div class="edu-banner">
+                <div>
+                    <h3 class="fw-bold text-primary mb-2">Pencegahan Adalah Kunci!</h3>
+                    <p class="mb-0 text-muted">Pelajari cara mengenali gejala stroke dan tips hidup sehat di bawah ini.</p>
+                </div>
+                <img src="https://cdn-icons-png.flaticon.com/512/2966/2966334.png" alt="Health" class="edu-img d-none d-md-block">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <div class="info-header bg-danger"><i class="fas fa-ambulance me-2"></i> METODE F.A.S.T (Deteksi Cepat)</div>
+                        <div class="p-4">
+                            <p class="text-muted mb-4 small">Jika Anda melihat orang pingsan atau lemas mendadak, cek 4 hal ini:</p>
+                            <div class="fast-item" style="border-color: #dc3545;"><div class="fast-letter text-danger">F</div><div><h6 class="fw-bold mb-1">FACE (Wajah)</h6><small class="text-muted">Minta tersenyum. Apakah satu sisi wajah terkulai/turun?</small></div></div>
+                            <div class="fast-item" style="border-color: #ffc107;"><div class="fast-letter text-warning">A</div><div><h6 class="fw-bold mb-1">ARMS (Lengan)</h6><small class="text-muted">Angkat kedua tangan. Apakah satu lengan lemah/jatuh?</small></div></div>
+                            <div class="fast-item" style="border-color: #198754;"><div class="fast-letter text-success">S</div><div><h6 class="fw-bold mb-1">SPEECH (Bicara)</h6><small class="text-muted">Ajak bicara kalimat simpel. Apakah suaranya pelo/tidak jelas?</small></div></div>
+                            <div class="fast-item" style="border-color: #212529;"><div class="fast-letter text-dark">T</div><div><h6 class="fw-bold mb-1">TIME (Waktu)</h6><small class="text-muted">Jangan tunggu! Segera panggil bantuan medis/ambulans.</small></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <div class="info-header bg-primary"><i class="fas fa-shield-alt me-2"></i> TIPS PENCEGAHAN STROKE</div>
+                        <div class="p-4">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
+                                    <div class="bg-success bg-opacity-10 p-2 rounded"><i class="fas fa-check-circle text-success fs-4"></i></div>
+                                    <div><span class="fw-bold d-block">Kontrol Tekanan Darah</span><small class="text-muted">Cek tensi secara rutin, jaga di bawah 140/90.</small></div>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
+                                    <div class="bg-success bg-opacity-10 p-2 rounded"><i class="fas fa-running text-success fs-4"></i></div>
+                                    <div><span class="fw-bold d-block">Aktivitas Fisik</span><small class="text-muted">Olahraga ringan minimal 30 menit setiap hari.</small></div>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
+                                    <div class="bg-success bg-opacity-10 p-2 rounded"><i class="fas fa-carrot text-success fs-4"></i></div>
+                                    <div><span class="fw-bold d-block">Pola Makan Sehat</span><small class="text-muted">Kurangi garam, gula, dan lemak jenuh.</small></div>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
+                                    <div class="bg-danger bg-opacity-10 p-2 rounded"><i class="fas fa-ban text-danger fs-4"></i></div>
+                                    <div><span class="fw-bold d-block">Hindari Rokok & Alkohol</span><small class="text-muted">Zat kimia rokok merusak pembuluh darah otak.</small></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('sidebarCollapse').addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('active'); document.querySelector('.overlay').classList.toggle('active'); });
+    document.querySelector('.overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('active'); document.querySelector('.overlay').classList.remove('active'); });
+</script>
+</body>
+</html>

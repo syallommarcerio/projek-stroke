@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - KT Arutala</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #4361ee; --secondary: #3f37c9; --bg: #f8f9fa; --sidebar: #1a1d21; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); overflow-x: hidden; }
+        
+        #wrapper { display: flex; width: 100%; }
+        #sidebar { min-width: 260px; max-width: 260px; background: var(--sidebar); color: #fff; min-height: 100vh; transition: 0.3s; z-index: 1000; }
+        #sidebar .sidebar-header { padding: 30px 20px; background: rgba(255,255,255,0.05); font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        #sidebar ul.components { padding: 20px 0; }
+        #sidebar ul li a { padding: 15px 25px; display: block; color: #adb5bd; text-decoration: none; transition: 0.3s; border-left: 4px solid transparent; }
+        #sidebar ul li a:hover, #sidebar ul li.active a { color: #fff; background: rgba(67, 97, 238, 0.1); border-left-color: var(--primary); }
+        #sidebar ul li a i { width: 25px; text-align: center; margin-right: 10px; }
+        #content { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+        .navbar-custom { background: #fff; padding: 15px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); }
+        
+        /* HERO SECTION */
+        .hero-card {
+            background: linear-gradient(120deg, #4361ee 0%, #304ffe 100%);
+            color: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-card::after {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px;
+            background: rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none;
+        }
+        
+        /* GAMBAR DOKTER */
+        .hero-img {
+            width: 100%; 
+            max-width: 320px; /* Ukuran Laptop */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        .info-box { background: white; border-radius: 16px; padding: 25px; height: 100%; box-shadow: 0 5px 20px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; transition: transform 0.3s; }
+        .info-box:hover { transform: translateY(-5px); }
+        .icon-box { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+        
+        /* --- PENGATURAN HP (MOBILE) --- */
+        @media (max-width: 768px) { 
+            #sidebar { margin-left: -260px; position: fixed; height: 100%; } 
+            #sidebar.active { margin-left: 0; } 
+            .overlay { display: none; position: fixed; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; top:0; left:0; } 
+            .overlay.active { display: block; }
+            
+            /* TWEAK GAMBAR DI HP */
+            .hero-card { padding: 30px 20px; text-align: center; } /* Teks jadi tengah */
+            .hero-img { 
+                max-width: 180px; /* Perkecil ukuran gambar di HP */
+                margin-top: 20px; /* Kasih jarak dari tombol */
+                margin-bottom: -10px;
+            }
+            .d-flex.gap-3 { justify-content: center; } /* Tombol jadi di tengah */
+        }
+    </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div id="wrapper">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-heartbeat text-primary fa-lg"></i> <span class="ms-2">STROKE GUARD</span>
+        </div>
+        <ul class="list-unstyled components">
+            <li class="active"><a href="/"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="/analisa"><i class="fas fa-stethoscope"></i> Diagnosa AI</a></li>
+            <li><a href="/edukasi"><i class="fas fa-book-medical"></i> Pusat Edukasi</a></li>
+        </ul>
+    </nav>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <button type="button" id="sidebarCollapse" class="btn btn-light text-primary d-md-none me-3"><i class="fas fa-bars"></i></button>
+            <h5 class="m-0 fw-bold text-dark">Dashboard Utama</h5>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <div class="text-end d-none d-sm-block">
+                    <span class="d-block fw-bold text-dark small">Karang Taruna Arutala</span>
+                    <span class="d-block text-muted" style="font-size: 0.7rem;">Mitra Kesehatan</span>
+                </div>
+                <img src="{{ url_for('static', filename='logo_karangtaruna.png') }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid #e2e8f0;">
+            </div>
+        </nav>
+        
+        <div class="container-fluid px-4 py-4">
+            
+            <div class="hero-card mb-4">
+                <div class="row align-items-center hero-content">
+                    <div class="col-md-7">
+                        <span class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill fw-bold">💊 Health AI System v1.0</span>
+                        <h2 class="fw-bold mb-3">Halo, Kader Arutala! 👋</h2>
+                        <p class="mb-4 text-white-50" style="font-size: 1.1rem;">Sistem ini membantu Anda melakukan <strong>Skrining Dini Stroke</strong> pada warga dengan teknologi AI. Cepat, Akurat, dan Mudah digunakan.</p>
+                        <div class="d-flex gap-3 flex-wrap justify-content-md-start justify-content-center">
+                            <a href="/analisa" class="btn btn-light text-primary fw-bold px-4 py-3 rounded-pill shadow-sm">
+                                <i class="fas fa-play-circle me-2"></i> Mulai Diagnosa
+                            </a>
+                            <a href="/edukasi" class="btn btn-outline-light fw-bold px-4 py-3 rounded-pill">
+                                <i class="fas fa-book-open me-2"></i> Pelajari Stroke
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5 text-center">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3304/3304567.png" alt="Doctor Illustration" class="hero-img">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="info-box">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary"><i class="fas fa-bullseye"></i></div>
+                        <h5 class="fw-bold">Tujuan Program</h5>
+                        <p class="text-muted small">Mendeteksi risiko stroke sejak dini pada warga usia produktif maupun lansia untuk pencegahan yang lebih efektif.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-box">
+                        <div class="icon-box bg-danger bg-opacity-10 text-danger"><i class="fas fa-heart-crack"></i></div>
+                        <h5 class="fw-bold">Bahaya Stroke</h5>
+                        <p class="text-muted small">Stroke adalah penyebab kematian tertinggi ke-2 di dunia. Kenali gejalanya dengan metode F.A.S.T di menu Edukasi.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-box">
+                        <div class="icon-box bg-success bg-opacity-10 text-success"><i class="fas fa-robot"></i></div>
+                        <h5 class="fw-bold">Akurasi AI</h5>
+                        <p class="text-muted small">Sistem ini menggunakan algoritma <strong>Random Forest</strong> dengan akurasi pengujian mencapai <strong>97.66%</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('sidebarCollapse').addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('active'); document.querySelector('.overlay').classList.toggle('active'); });
+    document.querySelector('.overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('active'); document.querySelector('.overlay').classList.remove('active'); });
+</script>
+</body>
+</html>
