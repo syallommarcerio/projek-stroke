@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisa - KT Sendangmulyo</title>
+    <title>Analisa - KT Arutala</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,7 +11,6 @@
         :root { --primary: #4361ee; --bg: #f8f9fa; --sidebar: #1a1d21; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg); overflow-x: hidden; }
         
-        /* COPY STYLE SIDEBAR DARI DASHBOARD BIAR SAMA */
         #wrapper { display: flex; width: 100%; }
         #sidebar { min-width: 260px; max-width: 260px; background: var(--sidebar); color: #fff; min-height: 100vh; transition: 0.3s; z-index: 1000; }
         #sidebar .sidebar-header { padding: 30px 20px; background: rgba(255,255,255,0.05); font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -28,34 +27,19 @@
             .overlay.active { display: block; }
         }
 
-        /* --- STYLE KHUSUS FORM --- */
-        .main-card {
-            background: white; border-radius: 20px; border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); overflow: hidden;
-        }
-        .card-header-custom {
-            background: linear-gradient(135deg, #4361ee, #3f37c9); color: white; padding: 20px 30px;
-        }
+        .main-card { background: white; border-radius: 20px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); overflow: hidden; }
+        .card-header-custom { background: linear-gradient(135deg, #4361ee, #3f37c9); color: white; padding: 20px 30px; }
         .form-label { font-weight: 600; font-size: 0.85rem; color: #495057; margin-bottom: 8px; }
         .input-group-text { background: #f8f9fa; border: 1px solid #ced4da; border-right: none; color: #6c757d; }
-        .form-control, .form-select {
-            padding: 12px; border-radius: 8px; border: 1px solid #ced4da; font-size: 0.95rem;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary); box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
-        }
+        .form-control, .form-select { padding: 12px; border-radius: 8px; border: 1px solid #ced4da; font-size: 0.95rem; }
+        .form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1); }
         .input-with-icon { border-left: none; }
-        
-        /* RESULT */
-        .result-card {
-            border-radius: 16px; padding: 30px; text-align: center; margin-top: 30px;
-            position: relative; overflow: hidden;
-        }
+        .result-card { border-radius: 16px; padding: 30px; text-align: center; margin-top: 30px; position: relative; overflow: hidden; }
         .score-text { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 15px 0; }
+        .text-helper { font-size: 0.75rem; color: #94a3b8; margin-top: 4px; display: block; }
     </style>
 </head>
 <body>
-
 <div class="overlay"></div>
 <div id="wrapper">
     <nav id="sidebar">
@@ -68,20 +52,18 @@
             <li><a href="/edukasi"><i class="fas fa-book-medical"></i> Pusat Edukasi</a></li>
         </ul>
     </nav>
-
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-custom">
             <button type="button" id="sidebarCollapse" class="btn btn-light text-primary d-md-none me-3"><i class="fas fa-bars"></i></button>
             <h5 class="m-0 fw-bold text-dark">Formulir Diagnosa</h5>
             <div class="ms-auto d-flex align-items-center gap-3">
                 <div class="text-end d-none d-sm-block">
-                    <span class="d-block fw-bold text-dark small">KT Sendangmulyo</span>
+                    <span class="d-block fw-bold text-dark small">Karang Taruna Arutala</span>
                     <span class="d-block text-muted" style="font-size: 0.7rem;">Admin Akses</span>
                 </div>
                 <img src="{{ url_for('static', filename='logo_karangtaruna.png') }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid #e2e8f0;">
             </div>
         </nav>
-
         <div class="container-fluid px-4 py-4">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -91,97 +73,77 @@
                             <span class="badge bg-white text-primary rounded-pill px-3">Live Mode</span>
                         </div>
                         <div class="card-body p-4 p-md-5">
-                            
                             <form action="/predict" method="POST">
-                                <h6 class="text-primary fw-bold mb-3 text-uppercase small ls-1">Data Pribadi</h6>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label text-primary">NAMA PASIEN</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="nama" class="form-control input-with-icon" placeholder="Masukkan Nama Warga..." required value="{{ request.form['nama'] if request.form else '' }}">
+                                    </div>
+                                </div>
+
+                                <h6 class="text-primary fw-bold mb-3 text-uppercase small ls-1">Data Fisik</h6>
                                 <div class="row g-3 mb-4">
                                     <div class="col-md-6">
                                         <label class="form-label">Usia</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-user-clock"></i></span>
-                                            <input type="number" name="usia" class="form-control input-with-icon" placeholder="Contoh: 55" required value="{{ request.form['usia'] if request.form else '' }}">
-                                        </div>
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-user-clock"></i></span><input type="number" name="usia" class="form-control input-with-icon" placeholder="Contoh: 55" required value="{{ request.form['usia'] if request.form else '' }}"></div>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Jenis Kelamin</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
-                                            <select name="gender" class="form-select input-with-icon">
-                                                <option value="Male">Laki-laki</option>
-                                                <option value="Female">Perempuan</option>
-                                            </select>
-                                        </div>
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-venus-mars"></i></span><select name="gender" class="form-select input-with-icon"><option value="Male">Laki-laki</option><option value="Female">Perempuan</option></select></div>
                                     </div>
                                 </div>
-
+                                
                                 <h6 class="text-primary fw-bold mb-3 text-uppercase small ls-1">Indikator Medis</h6>
                                 <div class="row g-3 mb-4">
                                     <div class="col-md-6">
-                                        <label class="form-label">Gula Darah Rata-rata</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-tint"></i></span>
-                                            <input type="number" name="gula" step="0.1" class="form-control input-with-icon" placeholder="Contoh: 140.5" required value="{{ request.form['gula'] if request.form else '' }}">
-                                        </div>
+                                        <label class="form-label">Gula Darah</label>
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-tint"></i></span><input type="number" name="gula" step="0.1" class="form-control input-with-icon" placeholder="Contoh: 140" required value="{{ request.form['gula'] if request.form else '' }}"></div>
+                                        <small class="text-helper"><i class="fas fa-info-circle"></i> Jika belum cek, isi angka <strong>100</strong> (Normal).</small>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">BMI (Berat/Tinggi²)</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-weight"></i></span>
-                                            <input type="number" name="bmi" step="0.1" class="form-control input-with-icon" placeholder="Contoh: 28.4" required value="{{ request.form['bmi'] if request.form else '' }}">
-                                        </div>
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-weight"></i></span><input type="number" name="bmi" step="0.1" class="form-control input-with-icon" placeholder="Contoh: 28.4" required value="{{ request.form['bmi'] if request.form else '' }}"></div>
                                     </div>
                                 </div>
-
+                                
                                 <h6 class="text-primary fw-bold mb-3 text-uppercase small ls-1">Riwayat & Gaya Hidup</h6>
                                 <div class="row g-3">
                                     <div class="col-md-4">
-                                        <label class="form-label">Hipertensi</label>
+                                        <label class="form-label">Tekanan Darah</label>
                                         <select name="hipertensi" class="form-select">
                                             <option value="0">Normal</option>
-                                            <option value="1" {% if request.form['hipertensi']=='1' %}selected{% endif %}>Ada Darah Tinggi</option>
+                                            <option value="1" {% if request.form['hipertensi']=='1' %}selected{% endif %}>Tinggi (Ada)</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Sakit Jantung</label>
                                         <select name="jantung" class="form-select">
-                                            <option value="0">Jantung Sehat</option>
-                                            <option value="1" {% if request.form['jantung']=='1' %}selected{% endif %}>Ada Riwayat</option>
+                                            <option value="0">Tidak</option>
+                                            <option value="1" {% if request.form['jantung']=='1' %}selected{% endif %}>Ada</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Merokok</label>
-                                        <select name="rokok" class="form-select">
-                                            <option value="never smoked">Tidak Merokok</option>
-                                            <option value="formerly smoked">Mantan Perokok</option>
-                                            <option value="smokes" {% if request.form['rokok']=='smokes' %}selected{% endif %}>Perokok Aktif</option>
-                                        </select>
+                                        <select name="rokok" class="form-select"><option value="never smoked">Tidak Merokok</option><option value="formerly smoked">Mantan Perokok</option><option value="smokes" {% if request.form['rokok']=='smokes' %}selected{% endif %}>Perokok Aktif</option></select>
                                     </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary w-100 mt-5 py-3 fw-bold rounded-pill shadow-lg">
-                                    <i class="fas fa-search me-2"></i> ANALISA RISIKO SEKARANG
-                                </button>
+                                <button type="submit" class="btn btn-primary w-100 mt-5 py-3 fw-bold rounded-pill shadow-lg"><i class="fas fa-search me-2"></i> ANALISA RISIKO SEKARANG</button>
                             </form>
 
                             {% if hasil %}
                             <div class="result-card" style="background: {{ '#f0fdf4' if css == 'success' else '#fef2f2' }}; border: 2px solid {{ '#22c55e' if css == 'success' else '#ef4444' }};">
-                                <h5 class="fw-bold text-uppercase {{ 'text-success' if css == 'success' else 'text-danger' }} mb-2">
-                                    <i class="{{ icon }} me-2"></i> {{ hasil }}
-                                </h5>
-                                <div class="score-text" style="color: {{ '#15803d' if css == 'success' else '#b91c1c' }}">
-                                    {{ skor }}
-                                </div>
-                                <div class="alert {{ 'alert-success' if css == 'success' else 'alert-danger' }} d-inline-block px-4 py-2 mb-0 fw-bold rounded-pill border-0">
-                                    {{ saran }}
-                                </div>
-                                <div class="mt-4">
-                                    <a href="/analisa" class="btn btn-outline-secondary rounded-pill px-4">
-                                        <i class="fas fa-redo me-2"></i> Reset Data
-                                    </a>
-                                </div>
+                                
+                                <h5 class="text-secondary fw-bold mb-2" style="font-size: 1rem;">Pasien: <span class="text-dark">{{ nama }}</span></h5>
+                                <hr>
+
+                                <h5 class="fw-bold text-uppercase {{ 'text-success' if css == 'success' else 'text-danger' }} mb-2"><i class="{{ icon }} me-2"></i> {{ hasil }}</h5>
+                                <div class="score-text" style="color: {{ '#15803d' if css == 'success' else '#b91c1c' }}">{{ skor }}</div>
+                                <div class="alert {{ 'alert-success' if css == 'success' else 'alert-danger' }} d-inline-block px-4 py-2 mb-0 fw-bold rounded-pill border-0">{{ saran }}</div>
+                                <div class="mt-4"><a href="/analisa" class="btn btn-outline-secondary rounded-pill px-4"><i class="fas fa-redo me-2"></i> Reset Data</a></div>
                             </div>
                             {% endif %}
-
                         </div>
                     </div>
                 </div>
@@ -189,16 +151,9 @@
         </div>
     </div>
 </div>
-
 <script>
-    document.getElementById('sidebarCollapse').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('active');
-        document.querySelector('.overlay').classList.toggle('active');
-    });
-    document.querySelector('.overlay').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.remove('active');
-        document.querySelector('.overlay').classList.remove('active');
-    });
+    document.getElementById('sidebarCollapse').addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('active'); document.querySelector('.overlay').classList.toggle('active'); });
+    document.querySelector('.overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('active'); document.querySelector('.overlay').classList.remove('active'); });
 </script>
 </body>
 </html>
