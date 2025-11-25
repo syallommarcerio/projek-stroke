@@ -36,10 +36,10 @@
             background: rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none;
         }
         
-        /* GAMBAR DOKTER */
+        /* GAMBAR DOKTER - CSS HP DIHAPUS AJA BIAR SIMPEL */
         .hero-img {
             width: 100%; 
-            max-width: 320px; /* Ukuran Laptop */
+            max-width: 320px;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
             animation: float 3s ease-in-out infinite;
         }
@@ -49,21 +49,14 @@
         .info-box:hover { transform: translateY(-5px); }
         .icon-box { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
         
-        /* --- PENGATURAN HP (MOBILE) --- */
         @media (max-width: 768px) { 
             #sidebar { margin-left: -260px; position: fixed; height: 100%; } 
             #sidebar.active { margin-left: 0; } 
             .overlay { display: none; position: fixed; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; top:0; left:0; } 
             .overlay.active { display: block; }
-            
-            /* TWEAK GAMBAR DI HP */
-            .hero-card { padding: 30px 20px; text-align: center; } /* Teks jadi tengah */
-            .hero-img { 
-                max-width: 180px; /* Perkecil ukuran gambar di HP */
-                margin-top: 20px; /* Kasih jarak dari tombol */
-                margin-bottom: -10px;
-            }
-            .d-flex.gap-3 { justify-content: center; } /* Tombol jadi di tengah */
+            .hero-card { padding: 30px 20px; text-align: center; } /* Teks jadi tengah di HP */
+            .hero-content { justify-content: center; }
+             /* CSS Gambar di HP dihapus karena gambarnya di-hide */
         }
     </style>
 </head>
@@ -99,8 +92,13 @@
                 <div class="row align-items-center hero-content">
                     <div class="col-md-7">
                         <span class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill fw-bold">💊 Health AI System v1.0</span>
-                        <h2 class="fw-bold mb-3">Halo, Kader Arutala! 👋</h2>
-                        <p class="mb-4 text-white-50" style="font-size: 1.1rem;">Sistem ini membantu Anda melakukan <strong>Skrining Dini Stroke</strong> pada warga dengan teknologi AI. Cepat, Akurat, dan Mudah digunakan.</p>
+                       <h2 class="fw-bold mb-3">Halo, Kader Arutala! 👋</h2>
+
+                        <p class="mb-4 text-white-50" style="font-size: 1.1rem; line-height: 1.6;">
+                            Solusi cerdas untuk <strong>Skrining Dini Risiko Stroke</strong> berbasis Artificial Intelligence. 
+                            Dapatkan analisis kesehatan yang <strong>Cepat, Akurat, dan Terpercaya</strong> dalam hitungan detik.
+                        </p>
+
                         <div class="d-flex gap-3 flex-wrap justify-content-md-start justify-content-center">
                             <a href="/analisa" class="btn btn-light text-primary fw-bold px-4 py-3 rounded-pill shadow-sm">
                                 <i class="fas fa-play-circle me-2"></i> Mulai Diagnosa
@@ -111,7 +109,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-5 text-center">
+                    <div class="col-md-5 text-center d-none d-md-block">
                         <img src="https://cdn-icons-png.flaticon.com/512/3304/3304567.png" alt="Doctor Illustration" class="hero-img">
                     </div>
                 </div>
@@ -129,7 +127,7 @@
                     <div class="info-box">
                         <div class="icon-box bg-danger bg-opacity-10 text-danger"><i class="fas fa-heart-crack"></i></div>
                         <h5 class="fw-bold">Bahaya Stroke</h5>
-                        <p class="text-muted small">Stroke adalah penyebab kematian tertinggi ke-2 di dunia. Kenali gejalanya dengan metode F.A.S.T di menu Edukasi.</p>
+                        <p class="text-muted small">Stroke adalah penyebab kematian tertinggi ke-2. Kenali gejalanya dengan metode F.A.S.T di menu Edukasi.</p>
                     </div>
                 </div>
                 <div class="col-md-4">

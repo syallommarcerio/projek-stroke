@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edukasi - KT Arutala</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --primary: #4361ee; --bg: #f8f9fa; --sidebar: #1a1d21; }
+        :root { --primary: #4361ee; --secondary: #3f37c9; --bg: #f8f9fa; --sidebar: #1a1d21; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg); overflow-x: hidden; }
         
+        /* LAYOUT & SIDEBAR (SAMA SEPERTI SEBELUMNYA) */
         #wrapper { display: flex; width: 100%; }
         #sidebar { min-width: 260px; max-width: 260px; background: var(--sidebar); color: #fff; min-height: 100vh; transition: 0.3s; z-index: 1000; }
         #sidebar .sidebar-header { padding: 30px 20px; background: rgba(255,255,255,0.05); font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -20,25 +23,50 @@
         #sidebar ul li a i { width: 25px; text-align: center; margin-right: 10px; }
         #content { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
         .navbar-custom { background: #fff; padding: 15px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); }
-        @media (max-width: 768px) { #sidebar { margin-left: -260px; position: fixed; height: 100%; } #sidebar.active { margin-left: 0; } .overlay { display: none; position: fixed; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; top:0; left:0; } .overlay.active { display: block; } }
+        @media (max-width: 768px) {
+            #sidebar { margin-left: -260px; position: fixed; height: 100%; }
+            #sidebar.active { margin-left: 0; }
+            .overlay { display: none; position: fixed; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; top:0; left:0; }
+            .overlay.active { display: block; }
+        }
 
-        .info-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.03); height: 100%; border: none; }
+        /* STYLE KHUSUS HALAMAN EDUKASI */
+        .info-card {
+            background: white; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03); height: 100%; border: none;
+        }
         .info-header { padding: 20px; font-weight: 700; color: white; display: flex; align-items: center; gap: 10px; }
         
-        .fast-item { display: flex; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 12px; border-left: 5px solid; transition: 0.3s; }
-        .fast-item:hover { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .fast-letter { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0; }
+        /* Style untuk kotak pengertian */
+        .def-box { background: #f8faff; border-left: 5px solid var(--primary); padding: 20px; border-radius: 8px; }
         
-        /* Banner Edukasi */
-        .edu-banner {
-            background: #e0e7ff; border-radius: 20px; padding: 30px; margin-bottom: 30px;
-            display: flex; align-items: center; justify-content: space-between;
+        /* Style untuk FAST */
+        .fast-item {
+            display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; padding: 15px;
+            background: #fff; border: 1px solid #f3f4f6; border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
-        .edu-img { width: 150px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); }
+        .fast-letter {
+            width: 50px; height: 50px; flex-shrink: 0; background: #f8fafc; color: #334155;
+            border-radius: 12px; font-size: 1.5rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; border: 2px solid #e2e8f0;
+        }
+        
+        /* Style untuk Tips */
+        .tips-item {
+            display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px dashed #e2e8f0;
+        }
+        .tips-item:last-child { border-bottom: none; }
+        .tips-icon {
+            width: 40px; height: 40px; border-radius: 50%; background: rgba(16, 185, 129, 0.1);
+            color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
+
 <div class="overlay"></div>
+
 <div id="wrapper">
     <nav id="sidebar">
         <div class="sidebar-header">
@@ -50,74 +78,167 @@
             <li class="active"><a href="/edukasi"><i class="fas fa-book-medical"></i> Pusat Edukasi</a></li>
         </ul>
     </nav>
+
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-custom">
             <button type="button" id="sidebarCollapse" class="btn btn-light text-primary d-md-none me-3"><i class="fas fa-bars"></i></button>
             <h5 class="m-0 fw-bold text-dark">Pusat Informasi</h5>
             <div class="ms-auto d-flex align-items-center gap-3">
                 <div class="text-end d-none d-sm-block">
-                    <span class="d-block fw-bold text-dark small">Karang Taruna Arutala</span>
-                    <span class="d-block text-muted" style="font-size: 0.7rem;">Admin Akses</span>
+                    <span class="d-block fw-bold text-dark small">KT Arutala</span>
+                    <span class="d-block text-muted" style="font-size: 0.7rem;">Mitra Kesehatan</span>
                 </div>
                 <img src="{{ url_for('static', filename='logo_karangtaruna.png') }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid #e2e8f0;">
             </div>
         </nav>
+
         <div class="container-fluid px-4 py-4">
             
-            <div class="edu-banner">
-                <div>
-                    <h3 class="fw-bold text-primary mb-2">Pencegahan Adalah Kunci!</h3>
-                    <p class="mb-0 text-muted">Pelajari cara mengenali gejala stroke dan tips hidup sehat di bawah ini.</p>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="info-card">
+                        <div class="info-header" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                            <i class="fas fa-brain me-2"></i> APA ITU STROKE?
+                        </div>
+                        <div class="p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold text-dark mb-3">Gangguan Pasokan Darah ke Otak</h5>
+                                    <p class="text-muted" style="line-height: 1.6; font-size: 0.95rem;">
+                                        <strong>Stroke</strong> adalah kondisi gawat darurat yang terjadi ketika pasokan darah ke bagian otak terganggu atau berkurang (akibat penyumbatan atau pecahnya pembuluh darah). Hal ini menyebabkan jaringan otak tidak mendapatkan oksigen dan nutrisi yang cukup.
+                                        <br><br>
+                                        <span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> BAHAYA:</span> Dalam hitungan menit, sel-sel otak mulai mati. Penanganan cepat sangat penting untuk mengurangi kerusakan otak dan komplikasi lainnya.
+                                    </p>
+                                </div>
+                                <div class="col-md-4 mt-3 mt-md-0">
+                                    <div class="bg-light p-4 rounded border text-center h-100">
+                                        <small class="fw-bold text-uppercase text-secondary d-block mb-3">2 Jenis Utama Stroke</small>
+                                        <div class="mb-2">
+                                            <span class="badge bg-warning text-dark py-2 px-3 w-100 shadow-sm">Stroke Iskemik (Sumbatan)</span>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-danger py-2 px-3 w-100 shadow-sm">Stroke Hemoragik (Pecah)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <img src="https://cdn-icons-png.flaticon.com/512/2966/2966334.png" alt="Health" class="edu-img d-none d-md-block">
             </div>
 
             <div class="row g-4">
                 <div class="col-lg-6">
                     <div class="info-card">
-                        <div class="info-header bg-danger"><i class="fas fa-ambulance me-2"></i> METODE F.A.S.T (Deteksi Cepat)</div>
+                        <div class="info-header bg-danger">
+                            <i class="fas fa-ambulance me-2"></i> METODE F.A.S.T (Deteksi Cepat)
+                        </div>
                         <div class="p-4">
-                            <p class="text-muted mb-4 small">Jika Anda melihat orang pingsan atau lemas mendadak, cek 4 hal ini:</p>
-                            <div class="fast-item" style="border-color: #dc3545;"><div class="fast-letter text-danger">F</div><div><h6 class="fw-bold mb-1">FACE (Wajah)</h6><small class="text-muted">Minta tersenyum. Apakah satu sisi wajah terkulai/turun?</small></div></div>
-                            <div class="fast-item" style="border-color: #ffc107;"><div class="fast-letter text-warning">A</div><div><h6 class="fw-bold mb-1">ARMS (Lengan)</h6><small class="text-muted">Angkat kedua tangan. Apakah satu lengan lemah/jatuh?</small></div></div>
-                            <div class="fast-item" style="border-color: #198754;"><div class="fast-letter text-success">S</div><div><h6 class="fw-bold mb-1">SPEECH (Bicara)</h6><small class="text-muted">Ajak bicara kalimat simpel. Apakah suaranya pelo/tidak jelas?</small></div></div>
-                            <div class="fast-item" style="border-color: #212529;"><div class="fast-letter text-dark">T</div><div><h6 class="fw-bold mb-1">TIME (Waktu)</h6><small class="text-muted">Jangan tunggu! Segera panggil bantuan medis/ambulans.</small></div></div>
+                            <p class="text-muted mb-4 small">Kenali tanda-tanda awal stroke dengan metode ini:</p>
+                            
+                            <div class="fast-item" style="border-color: #dc3545;">
+                                <div class="fast-letter text-danger">F</div>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-dark">FACE (Wajah)</h6>
+                                    <small class="text-secondary">Minta tersenyum. Apakah satu sisi wajah terkulai/turun?</small>
+                                </div>
+                            </div>
+
+                            <div class="fast-item" style="border-color: #ffc107;">
+                                <div class="fast-letter text-warning">A</div>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-dark">ARMS (Lengan)</h6>
+                                    <small class="text-secondary">Minta angkat kedua tangan. Apakah satu lengan lemah?</small>
+                                </div>
+                            </div>
+
+                            <div class="fast-item" style="border-color: #198754;">
+                                <div class="fast-letter text-success">S</div>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-dark">SPEECH (Bicara)</h6>
+                                    <small class="text-secondary">Ajak bicara kalimat sederhana. Apakah suaranya pelo?</small>
+                                </div>
+                            </div>
+
+                            <div class="fast-item" style="border-color: #212529;">
+                                <div class="fast-letter text-dark">T</div>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-dark">TIME (Waktu)</h6>
+                                    <small class="text-secondary">Jika ada gejala, <strong>JANGAN TUNGGU!</strong> Segera bawa ke RS.</small>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-6">
                     <div class="info-card">
-                        <div class="info-header bg-primary"><i class="fas fa-shield-alt me-2"></i> TIPS PENCEGAHAN STROKE</div>
+                        <div class="info-header bg-primary">
+                            <i class="fas fa-shield-heart me-2"></i> TIPS PENCEGAHAN
+                        </div>
                         <div class="p-4">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
-                                    <div class="bg-success bg-opacity-10 p-2 rounded"><i class="fas fa-check-circle text-success fs-4"></i></div>
-                                    <div><span class="fw-bold d-block">Kontrol Tekanan Darah</span><small class="text-muted">Cek tensi secara rutin, jaga di bawah 140/90.</small></div>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
-                                    <div class="bg-success bg-opacity-10 p-2 rounded"><i class="fas fa-running text-success fs-4"></i></div>
-                                    <div><span class="fw-bold d-block">Aktivitas Fisik</span><small class="text-muted">Olahraga ringan minimal 30 menit setiap hari.</small></div>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
-                                    <div class="bg-success bg-opacity-10 p-2 rounded"><i class="fas fa-carrot text-success fs-4"></i></div>
-                                    <div><span class="fw-bold d-block">Pola Makan Sehat</span><small class="text-muted">Kurangi garam, gula, dan lemak jenuh.</small></div>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-center gap-3 mb-2 py-3">
-                                    <div class="bg-danger bg-opacity-10 p-2 rounded"><i class="fas fa-ban text-danger fs-4"></i></div>
-                                    <div><span class="fw-bold d-block">Hindari Rokok & Alkohol</span><small class="text-muted">Zat kimia rokok merusak pembuluh darah otak.</small></div>
-                                </li>
-                            </ul>
+                            <p class="text-muted mb-4 small">Stroke dapat dicegah dengan pola hidup sehat (CERDIK):</p>
+
+                            <div class="tips-item">
+                                <div class="tips-icon"><i class="fas fa-stethoscope"></i></div>
+                                <div>
+                                    <span class="fw-bold d-block text-dark">Cek Kesehatan Rutin</span>
+                                    <small class="text-muted">Kontrol tekanan darah dan gula darah secara berkala.</small>
+                                </div>
+                            </div>
+
+                            <div class="tips-item">
+                                <div class="tips-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><i class="fas fa-ban"></i></div>
+                                <div>
+                                    <span class="fw-bold d-block text-dark">Enyahkan Asap Rokok</span>
+                                    <small class="text-muted">Berhenti merokok dan hindari paparan asap rokok.</small>
+                                </div>
+                            </div>
+
+                            <div class="tips-item">
+                                <div class="tips-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;"><i class="fas fa-running"></i></div>
+                                <div>
+                                    <span class="fw-bold d-block text-dark">Rajin Aktivitas Fisik</span>
+                                    <small class="text-muted">Lakukan olahraga ringan minimal 30 menit setiap hari.</small>
+                                </div>
+                            </div>
+
+                            <div class="tips-item">
+                                <div class="tips-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;"><i class="fas fa-apple-alt"></i></div>
+                                <div>
+                                    <span class="fw-bold d-block text-dark">Diet Seimbang</span>
+                                    <small class="text-muted">Perbanyak sayur & buah, kurangi garam & lemak jahat.</small>
+                                </div>
+                            </div>
+
+                            <div class="tips-item">
+                                <div class="tips-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;"><i class="fas fa-bed"></i></div>
+                                <div>
+                                    <span class="fw-bold d-block text-dark">Istirahat Cukup</span>
+                                    <small class="text-muted">Tidur 7-8 jam sehari dan kelola stres dengan baik.</small>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
 <script>
-    document.getElementById('sidebarCollapse').addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('active'); document.querySelector('.overlay').classList.toggle('active'); });
-    document.querySelector('.overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('active'); document.querySelector('.overlay').classList.remove('active'); });
+    document.getElementById('sidebarCollapse').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+    });
+    document.querySelector('.overlay').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('active');
+        document.querySelector('.overlay').classList.remove('active');
+    });
 </script>
+
 </body>
 </html>
